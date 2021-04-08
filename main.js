@@ -34,6 +34,8 @@ function evaluate() {
 
 function reset() {
     panels.result_holder.innerHTML = '';
+    _select('anomaly_panel').style.display = 'none';
+    _select('anomaly_fasp_criteria_holder').innerHTML = '';
     data = {};
 
     initial_question = new Question(

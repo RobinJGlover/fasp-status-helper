@@ -18,6 +18,8 @@ function on_choose_anomaly(response) {
     }
 
     data.anomaly = response;
+
+    generate_anomaly_info();
 }
 // ======== Structural ========
 function on_choose_booked_for_fa(response) {
@@ -66,7 +68,7 @@ function on_choose_early_loss(response) {
         data.result = "The fasp status should be: " + wrap_fasp_status('Ineligible: Early fetal loss (TOP)') + ".";
     } else if (response === 'Yes') {
         data.result = new Question(
-            "Was the FA fetal anomaly scan completed?",
+            "Was the fetal anomaly scan completed?",
             ["Yes", "No"],
             on_choose_fa_scan_completion
         )
@@ -76,10 +78,11 @@ function on_choose_early_loss(response) {
 function on_choose_fa_scan_completion(response) {
     if (response === 'Yes') {
         data.result = new Question(
-            "Did the fetal anomaly scan detect the anomaly as per criteria in 1.4 Fasp Detected Conditions?",
+            "Did the fetal anomaly scan detect the anomaly as per FASP detected criteria?",
             ["Yes", "No"],
             on_choose_fa_detection
         )
+        //generate_anomaly_info();
     } else if (response === 'No') {
         data.result = new Question(
             "Was recall fetal anomaly scan completed?",
@@ -100,10 +103,11 @@ function on_choose_fa_detection(response) {
 function on_choose_recall_fa_completion(response) {
     if (response === 'Yes') {
         data.result = new Question(
-            "Did the recall fetal anomaly scan detect the anomaly as per criteria in 1.4 Fasp Detected Conditions?",
+            "Did the fetal anomaly scan detect the anomaly as per FASP detected criteria?",
             ["Yes", "No"],
             on_choose_fa_detection
         )
+        //generate_anomaly_info();
     } else if (response === 'No') {
         data.result = "The fasp status should be: " + wrap_fasp_status('Undetected incomplete screen (After recall)') + ".";
     }
@@ -125,6 +129,12 @@ function on_choose_booked_for_fts(response) {
                 "Was the pregnancy booked in time for quad screening?",
                 ["Yes - quad accepted", "Yes - quad declined", "No"],
                 on_choose_booked_for_quad
+            )
+        } else {
+            data.result = new Question(
+                "Was pregnancy booked in time for fetal anomaly scan? (Less than 20+6 gestation)",
+                ["Yes", "No"],
+                on_choose_booked_for_fa
             )
         }
     }
@@ -154,7 +164,7 @@ function on_choose_quad_risk(response) {
 
 // This assumes that for a T21 that has declined fts that they would also declined quad.
 function on_choose_fts_acceptance(response) {
-    if(response === 'Offered and accepted') {
+    if (response === 'Offered and accepted') {
         // TODO return new question was it completed, yes, no nt measurable, no nt not measurable
         data.result = new Question(
             "Was the combined screening completed?",
@@ -163,18 +173,18 @@ function on_choose_fts_acceptance(response) {
         )
     } else if (response === 'Offered and declined') {
         data.first_screening_status = "The fasp status should be: " + wrap_fasp_status('Declined Screening') + ".";
-        if(data.anomaly === constants.anomaly_t21) {
+        if (data.anomaly === constants.anomaly_t21) {
             data.result = "The additional fasp status should be: " + wrap_fasp_status('Declined Screening') + ".";
         } else {
             data.result = new Question(
                 "Was pregnancy booked in time for fetal anomaly scan? (Less than 20+6 gestation)",
                 ["Yes", "No"],
                 on_choose_booked_for_fa
-            ) 
+            )
         }
-    } else if(response === "Not offered when eligible") {
+    } else if (response === "Not offered when eligible") {
         data.first_screening_status = "The fasp status should be: " + wrap_fasp_status('Missed Screen') + ".";
-        if(data.anomaly === constants.anomaly_t21) {
+        if (data.anomaly === constants.anomaly_t21) {
             data.result = new Question(
                 "Was the pregnancy booked in time for quad screening?",
                 ["Yes - quad accepted", "Yes - quad declined", "No"],
@@ -191,15 +201,15 @@ function on_choose_fts_acceptance(response) {
 }
 
 function on_choose_fts_completion(response) {
-    if(response === 'Yes') {
+    if (response === 'Yes') {
         data.result = new Question(
             "Was the combined screening high risk? (> 1 in 150)",
             ["Yes", "No"],
             on_choose_fts_risk
         )
-    } else if(response === "No - NT not measurable") {
+    } else if (response === "No - NT not measurable") {
         data.first_screening_status = "The fasp status should be: " + wrap_fasp_status('Undetected: incomplete screen (NT not measurable)') + ".";
-        if(data.anomaly === constants.anomaly_t21) {
+        if (data.anomaly === constants.anomaly_t21) {
             data.result = new Question(
                 "Was the pregnancy booked in time for quad screening?",
                 ["Yes - quad accepted", "Yes - quad declined", "No"],
@@ -210,11 +220,11 @@ function on_choose_fts_completion(response) {
                 "Was pregnancy booked in time for fetal anomaly scan? (Less than 20+6 gestation)",
                 ["Yes", "No"],
                 on_choose_booked_for_fa
-            ) 
+            )
         }
-    } else if(response === "No - NT measurable") {
+    } else if (response === "No - NT measurable") {
         data.first_screening_status = "The fasp status should be: " + wrap_fasp_status('Undetected: incomplete screen (NT measurable)') + ".";
-        if(data.anomaly === constants.anomaly_t21) {
+        if (data.anomaly === constants.anomaly_t21) {
             data.result = new Question(
                 "Was the pregnancy booked in time for quad screening?",
                 ["Yes - quad accepted", "Yes - quad declined", "No"],
@@ -225,17 +235,17 @@ function on_choose_fts_completion(response) {
                 "Was pregnancy booked in time for fetal anomaly scan? (Less than 20+6 gestation)",
                 ["Yes", "No"],
                 on_choose_booked_for_fa
-            ) 
+            )
         }
     }
 }
 
 function on_choose_fts_risk(response) {
-    if(response === 'Yes') {
+    if (response === 'Yes') {
         data.result = "The fasp status should be: " + wrap_fasp_status('Detected Screen +ive combined') + ".";
-    } else if(response === 'No') {
+    } else if (response === 'No') {
         data.first_screening_status = "The fasp status should be: " + wrap_fasp_status('Undetected Screen -ive combined') + ".";
-        if(data.anomaly === constants.anomaly_t21) {
+        if (data.anomaly === constants.anomaly_t21) {
             data.result = new Question(
                 "Was the pregnancy booked in time for quad screening?",
                 ["Yes - quad accepted", "Yes - quad declined", "No"],
@@ -246,7 +256,7 @@ function on_choose_fts_risk(response) {
                 "Was pregnancy booked in time for fetal anomaly scan? (Less than 20+6 gestation)",
                 ["Yes", "No"],
                 on_choose_booked_for_fa
-            ) 
+            )
         }
     }
 }
