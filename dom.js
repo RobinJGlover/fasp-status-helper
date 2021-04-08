@@ -9,13 +9,14 @@ class QuestionDisplay extends Element{
         super(parent, 'question-display', 'container d-flex flex-column');
         this.parent = parent;
         this.question = question;
-        this.question_div = create_div(this.content_div, 'question-label', '');
+        this.question_div = create_div(this.content_div, 'question-label', 'card-title');
         this.options_holder_div = create_div(this.content_div, 'question-display-option-holder', 'd-flex flex-row flex-wrap justify-content-start');
         this.options_divs = [];
-        for(let i = 0; i < this.question.options.length; i++) {
-            this.options_divs.push(create_div(this.options_holder_div, 'question-display-option', 'btn btn-primary m-2'));
+        for(let i = 0; i < this.question.option_labels.length; i++) {
+            this.options_divs.push(create_div(this.options_holder_div, 'question-display-option', 'btn btn-primary m-1'));
             this.options_divs[i].addEventListener('click', ()=>{
-                this.question.options[i].on_choose();
+                this.question.evaluator_func(this.question.option_labels[i]);
+                evaluate();
             })
         }
         
@@ -23,11 +24,15 @@ class QuestionDisplay extends Element{
     }
 
     update() {
-        this.question_div.innerText = this.question.label;
-        for(let i = 0; i < this.question.options.length; i++) {
-            this.options_divs[i].innerHTML = this.question.options[i].label;
+        this.question_div.innerText = this.question.question;
+        for(let i = 0; i < this.question.option_labels.length; i++) {
+            this.options_divs[i].innerHTML = this.question.option_labels[i];
         }
     }
+}
+
+function wrap_fasp_status(fasp_status) {
+    return "<span class='text-primary text-decoration-underline'>" + fasp_status + "</span>"
 }
 
 function _select(id) {

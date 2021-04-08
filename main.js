@@ -3,39 +3,46 @@ function main() {
     data = {};
     objects = {};
     panels = {};
-    
-    panels.question_holder = _select("question_holder");
 
-    initial_question = new Question(
-        "Please select the anomaly type.",
-        [
-            new QuestionOption("Anencephaly", ()=>{on_choose_condition_struc('Anencephaly')}),
-            new QuestionOption("Bilateral Renal Agenesis",()=>{on_choose_condition_struc('Bilateral Renal Agenesis')}),
-            new QuestionOption("Cleft Lip", ()=>{on_choose_condition_struc('Cleft Lip')}),
-            new QuestionOption("Congenital Diaphragmatic Hernia", ()=>{on_choose_condition_struc('Congenital Diaphragmatic Hernia')}),
-            new QuestionOption("Down's Syndrome"),
-            new QuestionOption("Edward's Syndrome"),
-            new QuestionOption("Exomphalos", ()=>{on_choose_condition_struc('Exomphalos')}),
-            new QuestionOption("Gastroschisis", ()=>{on_choose_condition_struc('Gastroschisis')}),
-            new QuestionOption("Lethal Skeletal Dysplasia", ()=>{on_choose_condition_struc('Lethal Skeletal Dysplasia')}),
-            new QuestionOption("Patau's Syndrome"),
-            new QuestionOption("Serious Cardiac", ()=>{on_choose_condition_struc('Serious Cardiac')}),
-            new QuestionOption("Spina Bifida", ()=>{on_choose_condition_struc('Spina Bifida')}),
-        ]
-    );
+    panels.result_holder = _select("result_holder");
 
-    objects.question_display = new QuestionDisplay(panels.question_holder, initial_question);
+    reset();
 }
 
 function evaluate() {
-    console.log(data);
-    panels.question_holder.innerHTML = '';
+    panels.result_holder.innerHTML = '';
 
-    if(data.result = )
+    if (data.result === null) {
+        panels.result_holder.innerHTML = "This path has not been finalised.";
+        return;
+    }
 
-    objects.question_display = new QuestionDisplay(panels.question_holder, data.queued_question);
+    if (typeof (data.result) === 'string') {
+        if (data.first_screening_status) {
+            panels.result_holder.innerHTML = `<div>${data.first_screening_status}</div><div>${data.result.replace("The fasp status", "The additional fasp status")}</div>`
+        } else {
+            panels.result_holder.innerHTML = data.result;
+        }
+    } else {
+        if (data.result instanceof (Question)) {
+            objects.result_display = new QuestionDisplay(panels.result_holder, data.result);
+        }
+    }
 
-    data.queued_question = null;
+    data.result = null;
+}
+
+function reset() {
+    panels.result_holder.innerHTML = '';
+    data = {};
+
+    initial_question = new Question(
+        "Please select the FASP anomaly:",
+        constants.fasp_anomalies,
+        on_choose_anomaly
+    )
+
+    objects.result_display = new QuestionDisplay(panels.result_holder, initial_question);
 }
 
 window.onload = main;
