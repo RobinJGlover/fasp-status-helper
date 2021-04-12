@@ -29,6 +29,12 @@ const constants = {
         "Edward's Syndrome",
         "Patau's Syndrome"
     ],
+    fasp_serious_cardiac: [
+        'Atrioventricular Septal Defect',
+        'Hypoplastic Left Heart Syndrome',
+        'Transposition of the Great Arteries',
+        'Tetralogy of Fallot',
+    ],
     anomaly_t21: "Down's Syndrome",
     fasp_criteria: {
         'Anencephaly': {
@@ -150,6 +156,34 @@ const constants = {
             'Rocker Bottom Feet': 'Screen Negative',
             'Single Umbilical Artery': 'Screen Negative',
             'Strawberry Shaped Head': 'Screen Negative',
+        },
+        "Atrioventricular Septal Defect": {
+            'Abnormal 4 Chamber View': 'Screen Positive',
+            'Abnormal Outflow Tracts': 'Screen Positive',
+            'Any Cardiac Anomaly': 'Screen Positive',
+            'Any Cardiac Referral': 'Screen Positive',
+            'Trisomy 21': 'Screen Negative',
+        },
+        "Hypoplastic Left Heart Syndrome": {
+            'Abnormal 4 Chamber View': 'Screen Positive',
+            'Abnormal Outflow Tracts': 'Screen Positive',
+            'Any Cardiac Anomaly': 'Screen Positive',
+            'Any Cardiac Referral': 'Screen Positive',
+        },
+        "Transposition of the Great Arteries": {
+            'Abnormal 4 Chamber View': 'Screen Positive',
+            'Abnormal Outflow Tracts': 'Screen Positive',
+            'Any Cardiac Anomaly': 'Screen Positive',
+        },
+        "Tetralogy of Fallot": {
+            'Abnormal 4 Chamber View': 'Screen Positive',
+            'Abnormal Outflow Tracts': 'Screen Positive',
+            'Any Cardiac Anomaly': 'Screen Positive',
+            'CHARGE Syndrome': 'Screen Positive',
+            'Pentalogy of Cantrell': 'Screen Positive',
+            'VACTERL': 'Screen Positive',
+            'Any Cardiac Referral': 'Screen Positive',
+            'Velo-Cardio-Facial Syndrome': 'Screen Negative',
         }
     }
 }

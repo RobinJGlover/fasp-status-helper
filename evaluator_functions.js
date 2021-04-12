@@ -1,13 +1,17 @@
 function on_choose_anomaly(response) {
-    if (constants.fasp_structural_anomalies.includes(response)) {
-        data.anomaly_type = 'structural';
+    if (response === 'Serious Cardiac') {
+        data.result = new Question(
+            "Please specify the serious cardiac anomaly:",
+            constants.fasp_serious_cardiac,
+            on_choose_serious_cardiac
+        )
+    } else if (constants.fasp_structural_anomalies.includes(response)) {
         data.result = new Question(
             "Was pregnancy booked in time for fetal anomaly scan? (Less than 20+6 gestation)",
             ["Yes", "No"],
             on_choose_booked_for_fa
         )
     } else if (constants.fasp_trisomy_anomalies.includes(response)) {
-        data.anomaly_type = 'trisomy';
         data.result = new Question(
             "Was pregnancy booked in time for combined screening? (Less than 13+6 gestation)",
             ["Yes", "No"],
@@ -19,11 +23,20 @@ function on_choose_anomaly(response) {
 
     data.anomaly = response;
 
-    generate_anomaly_info();
+    if(data.anomaly !== 'Serious Cardiac') generate_anomaly_info();
 }
 // ======== Structural ========
+function on_choose_serious_cardiac(response) {
+    data.anomaly = response;
+    generate_anomaly_info();
+    data.result = new Question(
+        "Was pregnancy booked in time for fetal anomaly scan? (Less than 20+6 gestation)",
+        ["Yes", "No"],
+        on_choose_booked_for_fa
+    )
+}
+
 function on_choose_booked_for_fa(response) {
-    console.log(response);
     if (response === 'No') {
         data.result = "The fasp status should be: " + wrap_fasp_status('Ineligible: Late/No Booking') + ".";
     } else if (response === 'Yes') {
