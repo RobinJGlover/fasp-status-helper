@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FASP Helper</title>
+    <title>FASP Status Interactive SOP</title>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
@@ -15,7 +15,7 @@
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand">
-                    FASP Helper
+                    FASP Status Interactive SOP
                 </a>
             </div>
         </div>
@@ -32,17 +32,24 @@
                     </div>
                     <div id="result_holder" class="card-body justify-content-between align-items-center"></div>
                 </div>
-                
+                <div id='validations_panel' class="card mt-4" style="display:none">
+                    <div class="card-header">Validations</div>
+                    <div class="card-body">
+                        <div class="text-primary">The following fields or data items must be completed
+                            for this case to pass FASP validations:</div>
+                        <div class="d-flex flex-column list-group mt-2" id="validations_holder"></div>
+                    </div>
+                </div>
             </div>
-            <div class="col-4" id='info-col'>
-                <div class="card flex-column" id="anomaly_panel" style="display:none">
-                    <div class="card-header" id="anomaly_header">Anomaly</div>
+            <div class="col-5" id='info-col'>
+                <div class="card flex-column" id="fasp_detected_panel" style="display:none">
+                    <div class="card-header" id="fasp_detected_header">Anomaly</div>
                     <div class="card-body">
                         <div class="d-flex flex-row justify-content-between border-bottom border-primary">
                             <div class="text-primary">Finding</div>
                             <div class="text-primary">Detected?</div>
                         </div>
-                        <div id="anomaly_fasp_criteria_holder"></div>
+                        <div id="fasp_detected_criteria_holder"></div>
                     </div>
                 </div>
             </div>
@@ -56,11 +63,11 @@
         integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
         </script>
 
-    <script src="ref.js"></script>
-    <script src="dom.js"></script>
-    <script src="question.js"></script>
-    <script src="evaluator_functions.js"></script>
-    <script src="main.js"></script>
+    <script src="resources/js/ref.js"></script>
+    <script src="resources/js/dom.js"></script>
+    <script src="resources/js/question.js"></script>
+    <script src="resources/js/evaluator_functions.js"></script>
+    <script src="resources/js/main.js"></script>
 </body>
 
 </html>
